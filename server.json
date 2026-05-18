@@ -1,10 +1,10 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.gitops-ci-cd/acme-mcp-server",
-  "title": "Acme MCP Server",
+  "name": "io.github.gitops-ci-cd/todo-mcp-server",
+  "title": "Todo MCP Server",
   "description": "A demo MCP server showcasing best practices and full MCP spec functionality via a todo domain",
   "repository": {
-    "url": "https://github.com/gitops-ci-cd/acme-mcp-server",
+    "url": "https://github.com/gitops-ci-cd/todo-mcp-server",
     "source": "github"
   },
   "version": "0.9.0",
@@ -17,7 +17,8 @@
   "packages": [
     {
       "registryType": "npm",
-      "identifier": "@gitops-ci-cd/acme-mcp-server",
+      "identifier": "@gitops-ci-cd/todo-mcp-server",
+      "registryBaseUrl": "https://npm.pkg.github.com",
       "version": "0.9.0",
       "transport": {
         "type": "stdio"
@@ -25,7 +26,16 @@
     },
     {
       "registryType": "oci",
-      "identifier": "ghcr.io/gitops-ci-cd/acme-mcp-server:0.9.0",
+      "identifier": "ghcr.io/gitops-ci-cd/todo-mcp-server:0.9.0",
+      "version": "0.9.0",
+      "transport": {
+        "type": "streamable-http",
+        "url": "http://localhost:8080/mcp"
+      }
+    },
+    {
+      "registryType": "mcpb",
+      "identifier": "https://github.com/gitops-ci-cd/todo-mcp-server/releases/download/v0.9.0/todo-mcp-server.mcpb",
       "version": "0.9.0",
       "transport": {
         "type": "stdio"

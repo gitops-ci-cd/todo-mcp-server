@@ -1,0 +1,17 @@
+src/
+pkg/
+*.ts
+tsconfig.json
+biome.json
+vite.config.ts
+vitest.config.ts
+
+.github/
+Dockerfile
+compose.yaml
+CODEOWNERS
+.nvmrc
+
+*.md
+server.json
+.mcpbignore

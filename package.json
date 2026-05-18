@@ -1,19 +1,20 @@
 {
-  "name": "@gitops-ci-cd/acme-mcp-server",
+  "name": "@gitops-ci-cd/todo-mcp-server",
   "version": "0.9.0",
-  "mcpName": "io.github.gitops-ci-cd/acme-mcp-server",
+  "mcpName": "io.github.gitops-ci-cd/todo-mcp-server",
   "description": "MCP server demo showcasing best practices and full MCP functionality",
   "repository": {
     "type": "git",
-    "url": "https://github.com/gitops-ci-cd/acme-mcp-server.git"
+    "url": "https://github.com/gitops-ci-cd/todo-mcp-server.git"
   },
   "type": "module",
   "main": "dist/pkg/index.js",
   "bin": {
-    "acme-mcp-server": "dist/pkg/index.js"
+    "todo-mcp-server": "dist/pkg/index.js"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "https://npm.pkg.github.com"
   },
   "scripts": {
     "build": "npm run build:apps && tsc",

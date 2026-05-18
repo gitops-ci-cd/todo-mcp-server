@@ -1,0 +1,24 @@
+{
+  "manifest_version": "0.3",
+  "name": "todo-mcp-server",
+  "version": "0.9.0",
+  "description": "A demo MCP server showcasing best practices and full MCP spec functionality via a todo domain",
+  "author": {
+    "name": "gitops-ci-cd",
+    "url": "https://github.com/gitops-ci-cd"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gitops-ci-cd/todo-mcp-server.git"
+  },
+  "server": {
+    "type": "node",
+    "entry_point": "dist/pkg/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/dist/pkg/index.js", "stdio"]
+    }
+  },
+  "tools_generated": true,
+  "prompts_generated": true
+}
