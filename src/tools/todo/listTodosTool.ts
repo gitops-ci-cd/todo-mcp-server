@@ -29,7 +29,7 @@ const outputSchema = {
   count: z.number().describe('Total number of todos returned'),
 };
 
-const callback: ToolDefinition['callback'] = async ({ filter }, extra) => {
+const callback: ToolDefinition<{ filter?: string }>['callback'] = async ({ filter }, extra) => {
   try {
     const todos = listTodos(extra.sessionId ?? 'default', filter);
 
@@ -47,7 +47,7 @@ const callback: ToolDefinition['callback'] = async ({ filter }, extra) => {
   }
 };
 
-export const listTodosTool: ToolDefinition = {
+export const listTodosTool: ToolDefinition<{ filter?: string }> = {
   title: 'List Todos',
   description: 'List all todos for the current session, optionally filtered by text',
   annotations: { readOnlyHint: true },

@@ -13,22 +13,24 @@ const inputSchema = {
   description: z.string().optional().describe('Optional description for the todo'),
 };
 
-const callback: ToolDefinition['callback'] = async ({ id, title, completed, description }, extra) => {
-  try {
-    const todo = upsertTodo(extra.sessionId ?? 'default', { id, title, completed, description });
+const callback: ToolDefinition<{ id?: string; title: string; completed?: boolean; description?: string }>['callback'] =
+  async ({ id, title, completed, description }, extra) => {
+    try {
+      const todo = upsertTodo(extra.sessionId ?? 'default', { id, title, completed, description });
 
-    return toolResponse({ data: todo });
-  } catch (error) {
-    return toolResponse({
-      errors: [{ detail: `Failed to upsert todo: ${errorMessage(error)}` }],
-    });
-  }
-};
+      return toolResponse({ data: todo });
+    } catch (error) {
+      return toolResponse({
+        errors: [{ detail: `Failed to upsert todo: ${errorMessage(error)}` }],
+      });
+    }
+  };
 
-export const upsertTodoTool: ToolDefinition = {
-  title: 'Upsert Todo',
-  description: 'Create a new todo or update an existing one',
-  annotations: { idempotentHint: true },
-  inputSchema,
-  callback,
-};
+export const upsertTodoTool: ToolDefinition<{ id?: string; title: string; completed?: boolean; description?: string }> =
+  {
+    title: 'Upsert Todo',
+    description: 'Create a new todo or update an existing one',
+    annotations: { idempotentHint: true },
+    inputSchema,
+    callback,
+  };

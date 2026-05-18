@@ -1,3 +1,4 @@
+import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { describe, expect, it, vi } from 'vitest';
 import { register } from './registry.js';
 
@@ -9,7 +10,7 @@ describe('prompt registry', () => {
   it('registers a prompt with name, config, and callback', () => {
     const server = mockServer();
     const callback = vi.fn();
-    register(server as any, 'my-prompt', {
+    register(server as unknown as McpServer, 'my-prompt', {
       title: 'My Prompt',
       description: 'Does prompting',
       callback,
@@ -25,7 +26,7 @@ describe('prompt registry', () => {
 
   it('includes argsSchema when provided', () => {
     const server = mockServer();
-    register(server as any, 'with-args', {
+    register(server as unknown as McpServer, 'with-args', {
       title: 'Args Prompt',
       description: 'Has args',
       argsSchema: { type: 'object', properties: { topic: { type: 'string' } } },

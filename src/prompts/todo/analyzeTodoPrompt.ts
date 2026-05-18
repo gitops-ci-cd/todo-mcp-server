@@ -6,7 +6,7 @@
 import { z } from 'zod';
 import type { PromptDefinition } from '../registry.js';
 
-const callback: PromptDefinition['callback'] = async ({ todoId }) => ({
+const callback: PromptDefinition<{ todoId: string }>['callback'] = async ({ todoId }) => ({
   messages: [
     {
       role: 'user' as const,
@@ -18,7 +18,7 @@ const callback: PromptDefinition['callback'] = async ({ todoId }) => ({
   ],
 });
 
-export const analyzeTodoPrompt: PromptDefinition = {
+export const analyzeTodoPrompt: PromptDefinition<{ todoId: string }> = {
   title: 'Analyze Todo',
   description: 'Look up a todo and provide a summary with suggested actions',
   argsSchema: {

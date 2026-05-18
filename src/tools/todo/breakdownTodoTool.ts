@@ -13,9 +13,7 @@ const inputSchema = {
   depth: z.enum(['shallow', 'detailed']).optional().default('shallow').describe('How detailed the breakdown should be'),
 };
 
-const callback: ToolDefinition['callback'] = async (args, extra) => {
-  const { todoId, depth } = args;
-
+const callback: ToolDefinition<{ todoId: string; depth?: string }>['callback'] = async ({ todoId, depth }, extra) => {
   const depthInstructions = {
     shallow: 'Give a concise 3-5 step breakdown. Keep each step to one sentence.',
     detailed: 'Give a thorough breakdown with sub-steps, time estimates, and potential blockers for each step.',
@@ -80,7 +78,7 @@ Format as a numbered list. Be practical and specific.`;
   }
 };
 
-export const breakdownTodoTool: ToolDefinition = {
+export const breakdownTodoTool: ToolDefinition<{ todoId: string; depth?: string }> = {
   title: 'Break Down Todo',
   description:
     'Use AI sampling to generate an actionable subtask breakdown for a todo. Demonstrates the sampling capability.',

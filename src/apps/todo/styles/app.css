@@ -190,13 +190,13 @@
   color: inherit;
 }
 
+.todo-title {
+  font-weight: var(--font-weight-medium);
+}
+
 .todo-row.completed .todo-title {
   text-decoration: line-through;
   color: var(--color-text-muted);
-}
-
-.todo-title {
-  font-weight: var(--font-weight-medium);
 }
 
 .todo-meta {

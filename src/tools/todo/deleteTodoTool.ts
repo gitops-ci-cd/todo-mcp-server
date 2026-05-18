@@ -10,7 +10,7 @@ const inputSchema = {
   id: z.string().describe('ID of the todo to delete'),
 };
 
-const callback: ToolDefinition['callback'] = async ({ id }, extra) => {
+const callback: ToolDefinition<{ id: string }>['callback'] = async ({ id }, extra) => {
   try {
     const deleted = deleteTodo(extra.sessionId ?? 'default', id);
 
@@ -28,7 +28,7 @@ const callback: ToolDefinition['callback'] = async ({ id }, extra) => {
   }
 };
 
-export const deleteTodoTool: ToolDefinition = {
+export const deleteTodoTool: ToolDefinition<{ id: string }> = {
   title: 'Delete Todo',
   description: 'Delete a todo by ID',
   annotations: { destructiveHint: true },

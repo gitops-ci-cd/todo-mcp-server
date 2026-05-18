@@ -11,6 +11,7 @@
 //   • execution.taskSupport: 'optional' — clients may invoke as task or normal call
 
 import type { ToolTaskHandler } from '@modelcontextprotocol/sdk/experimental/tasks/interfaces.js';
+import type { CallToolResult } from '@modelcontextprotocol/sdk/types.js';
 import { z } from 'zod';
 import { listTodos, type Todo } from '../../client.js';
 
@@ -94,7 +95,7 @@ export const analyzeTodosTaskHandler: ToolTaskHandler<typeof inputSchema> = {
 
   getTaskResult: async (_args, extra) => {
     const result = await extra.taskStore.getTaskResult(extra.taskId);
-    return result as any;
+    return result as CallToolResult;
   },
 };
 

@@ -1,3 +1,4 @@
+import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { ResourceTemplate } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { describe, expect, it, vi } from 'vitest';
 import { register } from './registry.js';
@@ -10,7 +11,7 @@ describe('resource registry', () => {
   it('registers a static resource with uri', () => {
     const server = mockServer();
     const readCallback = vi.fn();
-    register(server as any, 'my-resource', {
+    register(server as unknown as McpServer, 'my-resource', {
       title: 'My Resource',
       uri: 'todo://config',
       metadata: { mimeType: 'application/json' },
@@ -29,7 +30,7 @@ describe('resource registry', () => {
     const server = mockServer();
     const template = new ResourceTemplate('todo://todos/{id}', { list: undefined });
     const readCallback = vi.fn();
-    register(server as any, 'todo-template', {
+    register(server as unknown as McpServer, 'todo-template', {
       title: 'Todo Template',
       resourceTemplate: template,
       metadata: { mimeType: 'application/json' },

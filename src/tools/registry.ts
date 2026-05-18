@@ -9,28 +9,33 @@ import type {
 
 export { errorMessage, toolResponse } from '../../pkg/responses.js';
 
-export interface ToolDefinition {
+export interface ToolDefinition<Args extends Record<string, unknown> = Record<string, unknown>> {
   title: string;
   description: string;
   annotations?: ToolAnnotations;
-  inputSchema: Record<string, any>;
-  outputSchema?: Record<string, any>;
+  inputSchema: Record<string, unknown>;
+  outputSchema?: Record<string, unknown>;
   callback: (
-    args: Record<string, any>,
+    args: Args,
     extra: RequestHandlerExtra<ServerRequest, ServerNotification>,
-  ) => Promise<CallToolResult>;
+  ) => CallToolResult | Promise<CallToolResult>;
 }
 
-export const register = (server: McpServer, name: string, def: ToolDefinition) => {
+export const register = <Args extends Record<string, unknown>>(
+  server: McpServer,
+  name: string,
+  def: ToolDefinition<Args>,
+) => {
   server.registerTool(
     name,
     {
       title: def.title,
       description: def.description,
       annotations: def.annotations,
+      // @ts-expect-error — SDK types require Zod schemas; JSON schemas work at runtime
       inputSchema: def.inputSchema,
       ...(def.outputSchema && { outputSchema: def.outputSchema }),
     },
-    def.callback as any,
+    def.callback,
   );
 };

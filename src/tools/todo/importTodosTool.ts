@@ -23,8 +23,7 @@ const inputSchema = {
   titles: z.array(z.string()).min(1).describe('List of todo titles to import'),
 };
 
-const callback: ToolDefinition['callback'] = async (args, extra) => {
-  const { titles } = args as { titles: string[] };
+const callback: ToolDefinition<{ titles: string[] }>['callback'] = async ({ titles }, extra) => {
   const sessionId = extra.sessionId ?? 'default';
   const progressToken = extra._meta?.progressToken;
 
@@ -101,7 +100,7 @@ const callback: ToolDefinition['callback'] = async (args, extra) => {
   });
 };
 
-export const importTodosTool: ToolDefinition = {
+export const importTodosTool: ToolDefinition<{ titles: string[] }> = {
   title: 'Import Todos',
   description:
     'Batch-import multiple todos by title. Asks for user confirmation (elicitation), reports progress, and logs the operation.',
