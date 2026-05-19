@@ -32,7 +32,7 @@ const callback: PromptDefinition['callback'] = async () => {
           type: 'text' as const,
           text: `Great. Specifically, please:
 
-1. Use the list-todos tool to see what I currently have
+1. Read the todos resource (todos://detail/) to see what I currently have
 2. Look at the todos://tips/prioritization resource for prioritization strategies
 3. Suggest how I should order and group my current todos
 4. Identify any that should be broken down further

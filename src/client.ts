@@ -1,6 +1,7 @@
 // In-memory per-session store for Todos.
 
 import { randomUUID } from 'node:crypto';
+import { EventEmitter } from 'node:events';
 
 // --- Domain types ---
 
@@ -10,6 +11,16 @@ export interface Todo {
   completed: boolean;
   description?: string;
 }
+
+// --- Change events ---
+
+export type TodoChangeEvent = {
+  sessionId: string;
+  todoId: string;
+  action: 'upsert' | 'delete';
+};
+
+export const todoEvents = new EventEmitter<{ change: [TodoChangeEvent] }>();
 
 // --- Session store ---
 
@@ -60,9 +71,14 @@ export const upsertTodo = (
   };
 
   store.set(id, record);
+  todoEvents.emit('change', { sessionId, todoId: id, action: 'upsert' });
   return record;
 };
 
 export const deleteTodo = (sessionId: string, id: string): boolean => {
-  return getStore(sessionId).delete(id);
+  const deleted = getStore(sessionId).delete(id);
+  if (deleted) {
+    todoEvents.emit('change', { sessionId, todoId: id, action: 'delete' });
+  }
+  return deleted;
 };

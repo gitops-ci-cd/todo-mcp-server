@@ -1,5 +1,4 @@
 import type { App } from '@modelcontextprotocol/ext-apps';
-import type { CallToolResult } from '@modelcontextprotocol/sdk/types.js';
 import type { Todo } from './types.js';
 
 let _app: App;
@@ -9,8 +8,23 @@ export function setApp(app: App) {
 }
 
 export async function fetchTodos(): Promise<Todo[]> {
-  const result = await _app.callServerTool({ name: 'list-todos', arguments: {} });
-  return extractTodos(result);
+  const list = await _app.listServerResources();
+  const todoUris = list.resources.filter((r) => r.uri.startsWith('todos://detail/'));
+
+  const todos: Todo[] = [];
+  for (const { uri } of todoUris) {
+    const result = await _app.readServerResource({ uri });
+    const content = result.contents[0];
+    if (content && 'text' in content) {
+      try {
+        const parsed = JSON.parse(content.text);
+        if (parsed.data) todos.push(parsed.data as Todo);
+      } catch {
+        /* ignore */
+      }
+    }
+  }
+  return todos;
 }
 
 export async function saveTodo(data: {
@@ -44,22 +58,4 @@ export async function toggleTodo(todo: Todo): Promise<void> {
 
 export async function deleteTodo(id: string): Promise<void> {
   await _app.callServerTool({ name: 'delete-todo', arguments: { id } });
-}
-
-function extractTodos(result: CallToolResult): Todo[] {
-  if (result.structuredContent) {
-    const sc = result.structuredContent as { data?: Todo[] };
-    if (Array.isArray(sc.data)) return sc.data;
-  }
-  const textItem = result.content?.find((c) => c.type === 'text');
-  if (textItem && 'text' in textItem) {
-    try {
-      const parsed = JSON.parse(textItem.text);
-      if (parsed.data && Array.isArray(parsed.data)) return parsed.data;
-      if (Array.isArray(parsed)) return parsed;
-    } catch {
-      /* ignore */
-    }
-  }
-  return [];
 }
