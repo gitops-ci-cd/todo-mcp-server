@@ -50,7 +50,8 @@ jobs:
           "
           npm prune --omit=dev
           npx --yes @anthropic-ai/mcpb pack . ${{ github.event.repository.name }}.mcpb
-          npx --yes @anthropic-ai/mcpb sign ${{ github.event.repository.name }}.mcpb --self-signed
+          # Currently unsupported by Claude
+          # npx --yes @anthropic-ai/mcpb sign ${{ github.event.repository.name }}.mcpb --self-signed
 
       - uses: docker/login-action@v4
         with:

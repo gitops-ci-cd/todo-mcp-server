@@ -1,5 +1,5 @@
-src/
-pkg/
+/src/
+/pkg/
 *.ts
 tsconfig.json
 biome.json
